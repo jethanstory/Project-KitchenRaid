@@ -1114,6 +1114,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   knifeHand: {fileID: 1433586812}
-  speed: 10
+  speed: 1
   knifeTarget: {fileID: 1232432349}
   pocketTarget: {fileID: 664160521}
+  canStab: 0

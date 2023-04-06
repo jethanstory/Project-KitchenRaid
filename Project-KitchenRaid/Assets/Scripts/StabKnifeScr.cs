@@ -11,6 +11,7 @@ public class StabKnifeScr : MonoBehaviour
     // The target (cylinder) position.
     public Transform knifeTarget;
     public Transform pocketTarget;
+    public bool canStab = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,16 +21,19 @@ public class StabKnifeScr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        StabKnife();
         //StabKnife();
-        // if (Input.GetMouseButtonDown(0))
-        if (Input.GetKeyDown(KeyCode.V))
+        if (Input.GetMouseButtonDown(0))
+        //if (Input.GetKeyDown(KeyCode.V))
         {
-            StabKnife();
+            canStab = true;
+            
         }
     }
 
     public void StabKnife()
     {
+        if (canStab)
         {
             var step =  speed * Time.deltaTime; // calculate distance to move
             knifeHand.transform.position = Vector3.MoveTowards(knifeHand.transform.position, knifeTarget.position, step);
@@ -38,7 +42,21 @@ public class StabKnifeScr : MonoBehaviour
             if (Vector3.Distance(knifeHand.transform.position, knifeTarget.position) < 0.0001f)//< 0.001f)
             {
                Debug.Log("HIT");
+               canStab = false;
                knifeHand.transform.position = Vector3.MoveTowards(knifeHand.transform.position, pocketTarget.position, step);
+            }
+        }
+
+        if (!canStab)
+        {
+            var step =  speed * Time.deltaTime; // calculate distance to move
+            knifeHand.transform.position = Vector3.MoveTowards(knifeHand.transform.position, pocketTarget.position, step);
+
+            // Check if the position of the cube and sphere are approximately equal.
+            if (Vector3.Distance(knifeHand.transform.position, knifeTarget.position) < 0.0001f)//< 0.001f)
+            {
+               
+               
             }
         }
     }
