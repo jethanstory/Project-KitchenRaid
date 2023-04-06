@@ -1360,6 +1360,7 @@ MonoBehaviour:
   bulletNeeded: 0
   sliderBack: {fileID: 264532253}
   sliderOriginal: {fileID: 1544465795}
+  fpsPlayer: {fileID: 2134840502}
 --- !u!114 &2134840507
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1402,4 +1403,6 @@ MonoBehaviour:
   bulletPocketTarget: {fileID: 0}
   putAwayGun: 0
   takeOutGun: 0
+  gunReset: 0
+  addBullets: 0
   fpsPlayer: {fileID: 2134840502}

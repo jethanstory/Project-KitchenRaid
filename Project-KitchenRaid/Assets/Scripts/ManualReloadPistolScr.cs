@@ -20,6 +20,7 @@ public class ManualReloadPistolScr : MonoBehaviour
     public Transform bulletPocketTarget;
     public bool putAwayGun = false;
     public bool takeOutGun = false;
+    public bool gunReset;
 
     public float addBullets;
 
@@ -35,22 +36,31 @@ public class ManualReloadPistolScr : MonoBehaviour
     {
         GunMovement();
         //StabKnife();
+
         if (Input.GetKeyDown(KeyCode.R) && fpsPlayer.GetComponent<AmmunitionBehaviorScr>().bulletNeeded > 0)
         //if (Input.GetKeyDown(KeyCode.V))
         {
-
             putAwayGun = true;
-            addBullets += Time.deltaTime;
-            fpsPlayer.GetComponent<AmmunitionBehaviorScr>().bulletNeeded - addBullets;
+            GameObject.Find("M1911 Handgun_Model_1").GetComponent<SimpleShoot>().enabled = false;
+            
+                
         }
+
+        // if (fpsPlayer.GetComponent<AmmunitionBehaviorScr>().bulletNeeded == 0)
+        // //if (Input.GetKeyDown(KeyCode.V))
+        // {
+        //     takeOutGun = true;
+                
+        // }
     }
 
     public void GunMovement()
     {
         if (takeOutGun)
         {
+            gunReset = false;
             var step =  speed * Time.deltaTime; // calculate distance to move
-            gunHand.transform.position = Vector3.MoveTowards(gunHand.transform.position, gunPocketTarget.position, step);
+            gunHand.transform.position = Vector3.MoveTowards(gunHand.transform.position, gunTarget.position, step);
             magHand.transform.position = Vector3.MoveTowards(magHand.transform.position, magPocketTarget.position, step);
             
 
@@ -70,6 +80,8 @@ public class ManualReloadPistolScr : MonoBehaviour
 
         if (putAwayGun)
         {
+            addBullets += Time.deltaTime;
+            fpsPlayer.GetComponent<AmmunitionBehaviorScr>().bulletNeeded -= addBullets;
             var step =  speed * Time.deltaTime; // calculate distance to move
             gunHand.transform.position = Vector3.MoveTowards(gunHand.transform.position, gunPocketTarget.position, step);
             magHand.transform.position = Vector3.MoveTowards(magHand.transform.position, magTarget.position, step);
@@ -78,13 +90,18 @@ public class ManualReloadPistolScr : MonoBehaviour
             // Check if the position of the cube and sphere are approximately equal.
             if (Vector3.Distance(gunHand.transform.position, gunPocketTarget.position) < 0.0001f)//< 0.001f)
             {
-               putAwayGun = false;
+               
                
             }
 
-            if (fpsPlayer.GetComponent<AmmunitionBehaviorScr>().bulletNeeded == 0)
+            if (fpsPlayer.GetComponent<AmmunitionBehaviorScr>().bulletNeeded <= 0)
             {
+                fpsPlayer.GetComponent<AmmunitionBehaviorScr>().bulletNeeded = 0;
                 takeOutGun = true;
+                putAwayGun = false;
+                gunReset = true;
+                addBullets = 0;
+                GameObject.Find("M1911 Handgun_Model_1").GetComponent<SimpleShoot>().enabled = true;
             }
             // if (Vector3.Distance(magHand.transform.position, magTarget.position) < 0.0001f)//< 0.001f)
             // {

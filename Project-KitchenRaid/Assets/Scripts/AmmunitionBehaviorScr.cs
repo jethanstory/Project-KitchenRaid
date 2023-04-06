@@ -4,10 +4,12 @@ using UnityEngine;
 
 public class AmmunitionBehaviorScr : MonoBehaviour
 {
-    public int bulletCount = 7;
-    public int bulletNeeded = 0;
+    public float bulletCount = 7;
+    public float bulletNeeded = 0;
     public GameObject sliderBack;
     public GameObject sliderOriginal;
+
+    public GameObject fpsPlayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -28,7 +30,7 @@ public class AmmunitionBehaviorScr : MonoBehaviour
             GameObject.Find("M1911 Handgun_Model_1").GetComponent<SimpleShoot>().enabled = false;
         }
         bulletNeeded = 7 - bulletCount;
-
+        ResetGun();
     }
 
     private void OnTriggerEnter(Collider other) // to see when the player enters the collider
@@ -38,6 +40,17 @@ public class AmmunitionBehaviorScr : MonoBehaviour
            bulletCount+=bulletNeeded;
            sliderBack.SetActive(false);
            sliderOriginal.SetActive(true);
+           GameObject.Find("M1911 Handgun_Model_1").GetComponent<SimpleShoot>().enabled = true;
+        }
+    }
+
+    public void ResetGun()
+    {
+        if (fpsPlayer.GetComponent<ManualReloadPistolScr>().gunReset)
+        {
+           sliderBack.SetActive(false);
+           sliderOriginal.SetActive(true);
+           bulletCount = 7;
            GameObject.Find("M1911 Handgun_Model_1").GetComponent<SimpleShoot>().enabled = true;
         }
     }
