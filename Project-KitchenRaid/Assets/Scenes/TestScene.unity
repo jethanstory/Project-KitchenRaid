@@ -320,11 +320,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
---- !u!1 &537688643 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1289100062823888, guid: 3561d375b004832418eaf9271450e06f, type: 3}
-  m_PrefabInstance: {fileID: 2022881246}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &664160520
 GameObject:
   m_ObjectHideFlags: 0
@@ -711,6 +706,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mouseSensitivity: 100
   playerBody: {fileID: 2134840503}
+--- !u!1 &1433586812 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1295194218107404, guid: 3561d375b004832418eaf9271450e06f, type: 3}
+  m_PrefabInstance: {fileID: 2022881246}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1544465792
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1113,7 +1113,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 246ef9f6639c6ca4082b815265cbba38, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  knifeHand: {fileID: 537688643}
+  knifeHand: {fileID: 1433586812}
   speed: 2
   knifeTarget: {fileID: 1232432349}
   pocketTarget: {fileID: 664160521}
