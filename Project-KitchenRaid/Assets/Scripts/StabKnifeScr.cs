@@ -20,7 +20,9 @@ public class StabKnifeScr : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetMouseButtonDown(1))
+        //StabKnife();
+        // if (Input.GetMouseButtonDown(0))
+        if (Input.GetKeyDown(KeyCode.V))
         {
             StabKnife();
         }
@@ -35,6 +37,7 @@ public class StabKnifeScr : MonoBehaviour
             // Check if the position of the cube and sphere are approximately equal.
             if (Vector3.Distance(knifeHand.transform.position, knifeTarget.position) < 0.0001f)//< 0.001f)
             {
+               Debug.Log("HIT");
                knifeHand.transform.position = Vector3.MoveTowards(knifeHand.transform.position, pocketTarget.position, step);
             }
         }
