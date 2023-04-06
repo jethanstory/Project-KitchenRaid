@@ -17,8 +17,13 @@ public class ManualReloadPistolScr : MonoBehaviour
     public Transform pocketTarget;
     public Transform gunPocketTarget;
     public Transform magPocketTarget;
+    public Transform bulletPocketTarget;
     public bool putAwayGun = false;
     public bool takeOutGun = false;
+
+    public float addBullets;
+
+    public GameObject fpsPlayer;
     // Start is called before the first frame update
     void Start()
     {
@@ -30,11 +35,13 @@ public class ManualReloadPistolScr : MonoBehaviour
     {
         GunMovement();
         //StabKnife();
-        if (Input.GetKeyDown(KeyCode.R))
+        if (Input.GetKeyDown(KeyCode.R) && fpsPlayer.GetComponent<AmmunitionBehaviorScr>().bulletNeeded > 0)
         //if (Input.GetKeyDown(KeyCode.V))
         {
+
             putAwayGun = true;
-            
+            addBullets += Time.deltaTime;
+            fpsPlayer.GetComponent<AmmunitionBehaviorScr>().bulletNeeded - addBullets;
         }
     }
 
@@ -45,6 +52,7 @@ public class ManualReloadPistolScr : MonoBehaviour
             var step =  speed * Time.deltaTime; // calculate distance to move
             gunHand.transform.position = Vector3.MoveTowards(gunHand.transform.position, gunPocketTarget.position, step);
             magHand.transform.position = Vector3.MoveTowards(magHand.transform.position, magPocketTarget.position, step);
+            
 
             // Check if the position of the cube and sphere are approximately equal.
             if (Vector3.Distance(gunHand.transform.position, gunTarget.position) < 0.0001f)//< 0.001f)
@@ -65,6 +73,7 @@ public class ManualReloadPistolScr : MonoBehaviour
             var step =  speed * Time.deltaTime; // calculate distance to move
             gunHand.transform.position = Vector3.MoveTowards(gunHand.transform.position, gunPocketTarget.position, step);
             magHand.transform.position = Vector3.MoveTowards(magHand.transform.position, magTarget.position, step);
+            //bulletObject.transform.position = Vector3.MoveTowards(bulletObject.transform.position, bulletPocketTarget.position, step);
 
             // Check if the position of the cube and sphere are approximately equal.
             if (Vector3.Distance(gunHand.transform.position, gunPocketTarget.position) < 0.0001f)//< 0.001f)
@@ -72,12 +81,17 @@ public class ManualReloadPistolScr : MonoBehaviour
                putAwayGun = false;
                
             }
-            if (Vector3.Distance(magHand.transform.position, magTarget.position) < 0.0001f)//< 0.001f)
+
+            if (fpsPlayer.GetComponent<AmmunitionBehaviorScr>().bulletNeeded == 0)
             {
-               Debug.Log("HIT");
-               //takeOutGun = false;
-               //magHand.transform.position = Vector3.MoveTowards(magHand.transform.position, magPocketTarget.position, step);
+                takeOutGun = true;
             }
+            // if (Vector3.Distance(magHand.transform.position, magTarget.position) < 0.0001f)//< 0.001f)
+            // {
+            //    Debug.Log("HIT");
+            //    //takeOutGun = false;
+            //    //magHand.transform.position = Vector3.MoveTowards(magHand.transform.position, magPocketTarget.position, step);
+            // }
         }
     }
 

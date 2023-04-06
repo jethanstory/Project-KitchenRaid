@@ -1399,5 +1399,7 @@ MonoBehaviour:
   pocketTarget: {fileID: 0}
   gunPocketTarget: {fileID: 671022725}
   magPocketTarget: {fileID: 1252954185}
+  bulletPocketTarget: {fileID: 0}
   putAwayGun: 0
   takeOutGun: 0
+  fpsPlayer: {fileID: 2134840502}
