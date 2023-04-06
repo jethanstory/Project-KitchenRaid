@@ -23,7 +23,7 @@ public class StabKnifeScr : MonoBehaviour
     {
         StabKnife();
         //StabKnife();
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(1))
         //if (Input.GetKeyDown(KeyCode.V))
         {
             canStab = true;
