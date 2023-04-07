@@ -22,6 +22,11 @@ public class ManualReloadPistolScr : MonoBehaviour
     public bool takeOutGun = false;
     public bool gunReset;
 
+    public bool bulletOut = false;
+    public bool bulletIn = false;
+
+    public Transform bulletSpawnPoint;
+
     public float addBullets;
 
     public GameObject fpsPlayer;
@@ -41,6 +46,7 @@ public class ManualReloadPistolScr : MonoBehaviour
         //if (Input.GetKeyDown(KeyCode.V))
         {
             putAwayGun = true;
+            bulletOut = true;
             GameObject.Find("M1911 Handgun_Model_1").GetComponent<SimpleShoot>().enabled = false;
             
                 
@@ -71,6 +77,7 @@ public class ManualReloadPistolScr : MonoBehaviour
                takeOutGun = false;
                //gunHand.transform.position = Vector3.MoveTowards(gunHand.transform.position, gunPocketTarget.position, step);
             }
+            bulletObject.SetActive(false);
             // if (Vector3.Distance(magHand.transform.position, magTarget.position) < 0.0001f)//< 0.001f)
             // {
             // //    putAwayGun = false;
@@ -81,11 +88,19 @@ public class ManualReloadPistolScr : MonoBehaviour
         if (putAwayGun)
         {
             addBullets += Time.deltaTime;
+
+            bulletObject.SetActive(true);
+            
+            // GameObject bulletInstance = Instantiate(bulletObject, bulletSpawnPoint.position, bulletSpawnPoint.rotation);
+
+            BulletMove();
             fpsPlayer.GetComponent<AmmunitionBehaviorScr>().bulletNeeded -= addBullets;
-            var step =  speed * Time.deltaTime; // calculate distance to move
+            var step = speed * Time.deltaTime; // calculate distance to move
             gunHand.transform.position = Vector3.MoveTowards(gunHand.transform.position, gunPocketTarget.position, step);
             magHand.transform.position = Vector3.MoveTowards(magHand.transform.position, magTarget.position, step);
-            //bulletObject.transform.position = Vector3.MoveTowards(bulletObject.transform.position, bulletPocketTarget.position, step);
+            // bulletInstance.transform.position = Vector3.MoveTowards(bulletInstance.transform.position, bulletPocketTarget.position, step);
+            // //Destroy(bulletInstance);
+            // bulletInstance.transform.position = Vector3.MoveTowards(bulletPocketTarget.transform.position, bulletSpawnPoint.position, 100);
 
             // Check if the position of the cube and sphere are approximately equal.
             if (Vector3.Distance(gunHand.transform.position, gunPocketTarget.position) < 0.0001f)//< 0.001f)
@@ -103,6 +118,7 @@ public class ManualReloadPistolScr : MonoBehaviour
                 addBullets = 0;
                 GameObject.Find("M1911 Handgun_Model_1").GetComponent<SimpleShoot>().enabled = true;
             }
+            
             // if (Vector3.Distance(magHand.transform.position, magTarget.position) < 0.0001f)//< 0.001f)
             // {
             //    Debug.Log("HIT");
@@ -141,6 +157,38 @@ public class ManualReloadPistolScr : MonoBehaviour
     //         }
     //     }
     // }
+
+    private void BulletMove()
+    {
+        //var step =  speed * Time.deltaTime; // calculate distance to move
+        var step =  Time.deltaTime /2; // calculate distance to move
+
+        if (bulletOut)
+        {
+            bulletObject.transform.position = Vector3.MoveTowards(bulletObject.transform.position, bulletPocketTarget.position, step);
+
+            if (Vector3.Distance(bulletObject.transform.position, bulletPocketTarget.position) < 0.0001f)//< 0.001f)
+            {
+               Debug.Log("POCKET");
+               
+               bulletIn = true;
+               bulletOut = false;
+            }
+
+            
+        }
+        if (bulletIn)
+        {
+            bulletObject.transform.position = Vector3.MoveTowards(bulletPocketTarget.transform.position, bulletSpawnPoint.position, 100);
+            if (Vector3.Distance(bulletObject.transform.position, bulletSpawnPoint.position) < 0.0001f)//< 0.001f)
+            {
+                Debug.Log("SPAWN");
+                bulletOut = true;
+                bulletIn = false;
+            }
+            
+        }
+    }
 
     private void OnTriggerEnter(Collider other) // to see when the player enters the collider
     {
